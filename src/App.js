@@ -17,12 +17,6 @@ function App() {
           size={100}
           borderColor="red"
         />
-        <Avatar
-          avatarUrl="https://randomuser.me/api/portraits/women/25.jpg"
-          alt="user avatar"
-          size={75}
-          borderColor="green"
-        />
       </main>
     </>
   );
