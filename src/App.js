@@ -1,5 +1,12 @@
+import Header from './components/Header';
+
 function App() {
-  return <div>Klassmate</div>;
+  return (
+    <>
+      <Header />
+      <main>Klassmate</main>
+    </>
+  );
 }
 
 export default App;
