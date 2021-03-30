@@ -1,6 +1,8 @@
 import './App.css';
 import logo from './logo.svg';
 
+console.log(toto);
+
 function App() {
   return (
     <div className="App">
