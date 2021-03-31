@@ -1,11 +1,17 @@
 import Avatar from './Avatar';
+import './Card.css';
 
 const Card = () => {
   return (
     <div className="card">
       <div className="meta">
         <div>Some info</div>
-        <Avatar />
+        <Avatar
+          avatarUrl="https://randomuser.me/api/portraits/women/25.jpg"
+          alt="user avatar"
+          size={50}
+          borderColor="green"
+        />
         <div>Some other info</div>
       </div>
       <div className="general">

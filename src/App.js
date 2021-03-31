@@ -1,5 +1,6 @@
 import Avatar from './components/Avatar';
 import Header from './components/Header';
+import Card from './components/Card';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           size={100}
           borderColor="red"
         />
+        <Card />
       </main>
     </>
   );
