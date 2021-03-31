@@ -77,7 +77,7 @@
   Components
   ================*/
 
-  .meta div {
+.meta div {
   color: var(--grey0);
   background: var(--green2);
   margin: 0.5em;
