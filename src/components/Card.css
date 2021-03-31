@@ -1,0 +1,97 @@
+/* Table of content
+  0. Global variables
+  1. Global styles
+  2. typography
+  3. Layout
+  4. Components
+*/
+
+/* ================
+  Global variables
+  ================*/
+:root {
+  --red1: hsl(304, 50%, 55%);
+  --red2: hsl(0, 90%, 41%);
+  --green1: hsl(150, 25%, 65%);
+  --green2: hsl(150, 30%, 55%);
+  --yellow0: hsl(15, 75%, 81%);
+  --yellow1: hsl(25, 85%, 70%);
+  --yellow2: hsl(45, 99%, 51%);
+  --solar: hsl(35, 54%, 78%);
+  --blue1: hsl(210, 100%, 74%);
+  --blue2: hsl(210, 92%, 67%);
+  --blue3: hsl(210, 84%, 59%);
+
+  --grey0: hsl(0, 0%, 90%);
+  --grey1: hsl(0, 0%, 75%);
+  --grey2: hsl(0, 0%, 55%);
+  --grey3: hsl(0, 0%, 35%);
+  --grey4: hsl(0, 0%, 25%);
+  --grey5: hsl(0, 0%, 15%);
+  --grey6: hsl(0, 0%, 5%);
+
+  --text-primary: var(--grey0);
+  --text-secondary: var(--grey1);
+
+  --bg-primary: var(--blue1);
+  --bg-secondary: var(--blue2);
+
+  --accentColor: var(--grey6);
+  --transition-speed: 300ms;
+
+  --default-font-size: 16px;
+  font-size: var(--default-font-size);
+}
+/* ================
+  Typography
+  ================*/
+
+/* ================
+  Layout
+  ================*/
+
+.card {
+  display: flex;
+  margin: 1em;
+}
+
+.card .meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1em;
+  border-radius: 0.5em 0 0 0.5em;
+  background-color: var(--green1);
+}
+
+.card .general {
+  background: var(--grey0);
+  color: var(--grey5);
+  max-width: 60ch;
+  padding: 1em;
+  border-radius: 0 0.5em 0.5em 0;
+}
+
+/* ================
+  Components
+  ================*/
+
+  .meta div {
+  color: var(--grey0);
+  background: var(--green2);
+  margin: 0.5em;
+  padding: 0.2em;
+  border-radius: 0.7em;
+}
+
+.general p {
+  line-height: 1.5;
+  text-align: justify; /* Justifies text */
+  max-width: 60ch; /* max width of a paragraph should be around 60 characters */
+  margin: 0 1em 2em;
+}
+
+.general h3 {
+  text-align: center;
+}

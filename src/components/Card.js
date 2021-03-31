@@ -15,7 +15,7 @@ const Card = () => {
         <div>Some other info</div>
       </div>
       <div className="general">
-        <h4 className="name">John Doe</h4>
+        <h3 className="name">John Doe</h3>
         <p className="description">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sint
           molestias consequuntur excepturi aliquam. Nobis dolor reprehenderit
