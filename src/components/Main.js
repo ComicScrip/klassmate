@@ -7,7 +7,7 @@ import ProfilePage from '../screens/ProfilePage';
 
 export default function Main() {
   return (
-    <main>
+    <main className="p-6">
       <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/profile" component={ProfilePage} />
