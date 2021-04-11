@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import MultiDrawer from './MultiDrawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -91,8 +92,12 @@ function Header({ auth = true }) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Log out</MenuItem>
+              <Link to="/profile">
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+              </Link>
+              <Link to="/">
+                <MenuItem onClick={handleClose}>Log out</MenuItem>
+              </Link>
             </Menu>
           </>
         )}

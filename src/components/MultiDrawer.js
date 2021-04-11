@@ -12,6 +12,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SportsKabaddi from '@material-ui/icons/SportsKabaddi';
 import clsx from 'clsx';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   list: {
@@ -28,15 +29,12 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
   const toggleDrawer = (anchor, open) => () => {
     setOpenStates({ ...openStates, [anchor]: !open });
   };
-
-  const getLinkIcon = (text) =>
-    ({
-      Dojo: <SportsKabaddi />,
-      'Create groups': <Groups />,
-      Activity: <PlayArrowIcon />,
-      Profile: <AccountBoxIcon />,
-      Logout: <ExitToAppIcon />,
-    }[text]);
+  const closeAllDrawers = () => {
+    // TODO: try to figure out why it does not work without setTimeout
+    setTimeout(() => {
+      setOpenStates({ top: false, bottom: false, right: false, left: false });
+    }, 50);
+  };
 
   const list = (anchor) => (
     <div
@@ -48,21 +46,49 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Activity', 'Create groups', 'Dojo'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{getLinkIcon(text)}</ListItemIcon>
-            <ListItemText primary={text} />
+        <Link to="/dojo" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <SportsKabaddi />
+            </ListItemIcon>
+            <ListItemText primary="Dojo" />
           </ListItem>
-        ))}
+        </Link>
+        <Link to="/createGroups" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <Groups />
+            </ListItemIcon>
+            <ListItemText primary="Create groups" />
+          </ListItem>
+        </Link>
+        <Link to="/activity" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <PlayArrowIcon />
+            </ListItemIcon>
+            <ListItemText primary="Activity" />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>
-        {['Profile', 'Logout'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{getLinkIcon(text)}</ListItemIcon>
-            <ListItemText primary={text} />
+        <Link to="/profile" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <AccountBoxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
           </ListItem>
-        ))}
+        </Link>
+        <Link to="/" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
