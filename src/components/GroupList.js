@@ -1,6 +1,6 @@
 export default function GroupList({ groups }) {
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap justify-center">
       {groups.map((group) => {
         return (
           <div key={group.name} className="p-5 mr-5 mb-5 w-32 bg-gray-300">
