@@ -55,6 +55,15 @@ export default function CreateGroupsPages() {
     );
   }, [numberOfGroupsToCreate, students]);
 
+  const validNumberOfGroups = new Array(students.length)
+    .fill()
+    .map((el, i) => i + 1)
+    .map((n) => (
+      <MenuItem key={n} value={n}>
+        {n}
+      </MenuItem>
+    ));
+
   return (
     <>
       <h2 className="text-center text-3xl">Create groups</h2>
@@ -62,10 +71,10 @@ export default function CreateGroupsPages() {
         <CircularProgress />
       ) : (
         <div className="text-center">
-          <p className="text-center text-xl">
+          <p className="text-xl">
             with <em>{students.length}</em> students
           </p>
-          <form className="p-5 m-3.5 ">
+          <form className="p-5 m-3.5 mb-5">
             <IconButton
               onClick={() =>
                 safelyChangeNumberOfGroups(numberOfGroupsToCreate - 1)
@@ -75,18 +84,19 @@ export default function CreateGroupsPages() {
               <RemoveIcon />
             </IconButton>
             <FormControl style={{ minWidth: 140 }}>
-              <InputLabel labelPlacement="end" id="numberOfGroups">
+              <InputLabel
+                style={{ position: 'relative', left: '17px' }}
+                id="numberOfGroups"
+              >
                 Number of groups
               </InputLabel>
               <Select
                 labelId="numberOfGroups"
                 id="numberOfGroups"
-                value={numberOfGroupsToCreate}
+                value={validNumberOfGroups.length ? numberOfGroupsToCreate : ''}
                 onChange={(e) => safelyChangeNumberOfGroups(e.target.value)}
               >
-                {new Array(students.length).fill().map((el, i) => (
-                  <MenuItem value={i + 1}>{i + 1}</MenuItem>
-                ))}
+                {validNumberOfGroups}
               </Select>
             </FormControl>
             <IconButton
