@@ -1,46 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    window.console.log({ email, password });
+  const onSubmit = (formData) => {
+    window.console.log(formData);
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <label htmlFor="email">
-        Email :
-        <input
-          autoComplete="username"
-          type="email"
-          value={email}
-          name="email"
-          onChange={handleEmailChange}
-          id="email"
-        />
-      </label>
-      <label htmlFor="password">
-        Password :
-        <input
-          autoComplete="current-password"
-          value={password}
-          onChange={handlePasswordChange}
-          type="password"
-          name="password"
-          id="password"
-        />
-      </label>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="email">
+          Email :
+          <input
+            autoComplete="username"
+            type="email"
+            {...register('email', {
+              required: { value: true, message: 'is Required' },
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'should have email format',
+              },
+            })}
+          />
+        </label>
+        {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+      </div>
+      <div>
+        <label htmlFor="password">
+          Password :
+          <input
+            autoComplete="current-password"
+            type="password"
+            {...register('password', {
+              required: { value: true, message: 'is Required' },
+              minLength: {
+                value: 8,
+                message: 'should contain at least 8 characters',
+              },
+            })}
+          />
+        </label>
+        {errors.password && (
+          <p className="text-red-600">{errors.password.message}</p>
+        )}
+      </div>
+
       <input type="submit" value="OK" />
     </form>
   );
