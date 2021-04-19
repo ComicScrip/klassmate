@@ -20,7 +20,7 @@ const initialTeam = [
 ];
 
 export default function DojoPage() {
-  const initialTimerValue = 300;
+  const initialTimerValue = 3;
   const [team, setTeam] = useState(initialTeam);
   const [pilot, copilot, ...otherMembers] = team;
   const [secondsLeft, setSecondsLeft] = useState(initialTimerValue);
@@ -35,21 +35,23 @@ export default function DojoPage() {
   };
 
   useEffect(() => {
-    const timerId = chronoStarted
-      ? setInterval(() => {
-          setSecondsLeft((left) => {
-            if (!left) {
-              handleTeamRotation();
-              return initialTimerValue;
-            }
-            return left - 1;
-          });
-        }, 1000)
-      : null;
+    let timerId = null;
+    if (chronoStarted) {
+      timerId = setInterval(() => {
+        setSecondsLeft((left) => left - 1);
+      }, 1000);
+    }
     return () => {
       if (timerId) clearInterval(timerId);
     };
   }, [chronoStarted]);
+
+  useEffect(() => {
+    if (secondsLeft === 0) {
+      setSecondsLeft(initialTimerValue);
+      handleTeamRotation();
+    }
+  }, [secondsLeft]);
 
   return (
     <>
