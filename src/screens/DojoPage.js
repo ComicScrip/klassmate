@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+// import { initial } from 'lodash';
 import { useEffect, useState } from 'react';
 
 dayjs.extend(duration);
@@ -25,6 +26,17 @@ export default function DojoPage() {
   const [pilot, copilot, ...otherMembers] = team;
   const [secondsLeft, setSecondsLeft] = useState(initialTimerValue);
   const [chronoStarted, setChronoStarted] = useState(false);
+
+  const [newStudentName, setNewStudentName] = useState('');
+
+  const addStudent = () => {
+    setTeam([...team, { firstName: newStudentName }]);
+    setNewStudentName('');
+  };
+
+  const handleNewStudent = (e) => {
+    setNewStudentName(e.target.value);
+  };
 
   const handleTeamRotation = () => {
     setTeam(([first, ...others]) => [...others, first]);
@@ -53,6 +65,10 @@ export default function DojoPage() {
     }
   }, [secondsLeft]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <button type="button" onClick={handleChronoToggle}>
@@ -71,6 +87,17 @@ export default function DojoPage() {
           {member.firstName}
         </div>
       ))}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Add new student"
+          value={newStudentName}
+          onChange={handleNewStudent}
+        />
+        <button type="submit" onClick={addStudent}>
+          Submit
+        </button>
+      </form>
     </>
   );
 }
