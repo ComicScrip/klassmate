@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-// import { initial } from 'lodash';
 import { useEffect, useState } from 'react';
 
 dayjs.extend(duration);
