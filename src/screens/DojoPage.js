@@ -20,7 +20,7 @@ const initialTeam = [
 ];
 
 export default function DojoPage() {
-  const initialTimerValue = 3;
+  const initialTimerValue = 15;
   const [team, setTeam] = useState(initialTeam);
   const [pilot, copilot, ...otherMembers] = team;
   const [secondsLeft, setSecondsLeft] = useState(initialTimerValue);

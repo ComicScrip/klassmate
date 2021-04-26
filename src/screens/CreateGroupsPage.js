@@ -29,6 +29,11 @@ export default function CreateGroupsPages() {
   const [students, setStudents] = useState([]);
   const [groupList, setGroupList] = useState([]);
   const [numberOfGroupsToCreate, setNumberOfGroupsToCreate] = useState(2);
+  const [groupOption, setGroupOption] = useState('Aléatoire');
+
+  const changeGroupOption = (event) => {
+    setGroupOption(event.target.value);
+  };
 
   useEffect(() => {
     setStudentsLoading(true);
@@ -49,11 +54,12 @@ export default function CreateGroupsPages() {
   };
 
   useEffect(() => {
-    const groups = makeGroups(_.shuffle(students), numberOfGroupsToCreate);
+    const list = groupOption === 'Aléatoire' ? _.shuffle(students) : students;
+    const groups = makeGroups(list, numberOfGroupsToCreate);
     setGroupList(
       groups.map((members, index) => ({ name: `GR${index + 1}`, members }))
     );
-  }, [numberOfGroupsToCreate, students]);
+  }, [numberOfGroupsToCreate, students, groupOption]);
 
   const validNumberOfGroups = new Array(students.length)
     .fill()
@@ -107,6 +113,24 @@ export default function CreateGroupsPages() {
             >
               <AddIcon />
             </IconButton>
+            <div>
+              <input
+                type="radio"
+                value="Aléatoire"
+                name="groupcreationoption"
+                checked={groupOption === 'Aléatoire'}
+                onChange={changeGroupOption}
+              />{' '}
+              Aléatoire
+              <input
+                type="radio"
+                value="Ordonné"
+                name="groupcreationoption"
+                checked={groupOption === 'Ordonné'}
+                onChange={changeGroupOption}
+              />
+              Ordonné
+            </div>
           </form>
           <GroupList groups={groupList} />
         </div>
