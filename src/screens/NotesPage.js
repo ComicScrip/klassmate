@@ -20,10 +20,10 @@ export default function NotesPage() {
           </tr>
         </thead>
         <tbody>
-          {notes.map((note) => {
+          {notes.map(({ id, title }) => {
             return (
-              <tr>
-                <td>{note.title}</td>
+              <tr key={id}>
+                <td>{title}</td>
                 <td>edit, delete</td>
               </tr>
             );
