@@ -5,7 +5,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Switch,
 } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import _ from 'lodash';
@@ -29,11 +31,7 @@ export default function CreateGroupsPages() {
   const [students, setStudents] = useState([]);
   const [groupList, setGroupList] = useState([]);
   const [numberOfGroupsToCreate, setNumberOfGroupsToCreate] = useState(2);
-  const [groupOption, setGroupOption] = useState('Aléatoire');
-
-  const changeGroupOption = (event) => {
-    setGroupOption(event.target.value);
-  };
+  const [randomizationActivited, setRandomizationActivated] = useState(true);
 
   useEffect(() => {
     setStudentsLoading(true);
@@ -54,12 +52,12 @@ export default function CreateGroupsPages() {
   };
 
   useEffect(() => {
-    const list = groupOption === 'Aléatoire' ? _.shuffle(students) : students;
+    const list = randomizationActivited ? _.shuffle(students) : students;
     const groups = makeGroups(list, numberOfGroupsToCreate);
     setGroupList(
       groups.map((members, index) => ({ name: `GR${index + 1}`, members }))
     );
-  }, [numberOfGroupsToCreate, students, groupOption]);
+  }, [numberOfGroupsToCreate, students, randomizationActivited]);
 
   const validNumberOfGroups = new Array(students.length)
     .fill()
@@ -113,23 +111,22 @@ export default function CreateGroupsPages() {
             >
               <AddIcon />
             </IconButton>
-            <div>
-              <input
-                type="radio"
-                value="Aléatoire"
-                name="groupcreationoption"
-                checked={groupOption === 'Aléatoire'}
-                onChange={changeGroupOption}
-              />{' '}
-              Aléatoire
-              <input
-                type="radio"
-                value="Ordonné"
-                name="groupcreationoption"
-                checked={groupOption === 'Ordonné'}
-                onChange={changeGroupOption}
+            <div className="mt-8">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={randomizationActivited}
+                    onChange={(e) =>
+                      setRandomizationActivated(e.target.checked)
+                    }
+                    color="primary"
+                    name="checkedB"
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  />
+                }
+                labelPlacement="start"
+                label="Randomization"
               />
-              Ordonné
             </div>
           </form>
           <GroupList groups={groupList} />
