@@ -28,12 +28,7 @@ export default function DojoPage() {
 
   const [newStudentName, setNewStudentName] = useState('');
 
-  const addStudent = () => {
-    setTeam([...team, { firstName: newStudentName }]);
-    setNewStudentName('');
-  };
-
-  const handleNewStudent = (e) => {
+  const handleNewStudentNameChange = (e) => {
     setNewStudentName(e.target.value);
   };
 
@@ -64,8 +59,10 @@ export default function DojoPage() {
     }
   }, [secondsLeft]);
 
-  const handleSubmit = (e) => {
+  const handleNewStudentAddition = (e) => {
     e.preventDefault();
+    setTeam([...team, { firstName: newStudentName }]);
+    setNewStudentName('');
   };
 
   return (
@@ -86,16 +83,14 @@ export default function DojoPage() {
           {member.firstName}
         </div>
       ))}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleNewStudentAddition}>
         <input
           type="text"
           placeholder="Add new student"
           value={newStudentName}
-          onChange={handleNewStudent}
+          onChange={handleNewStudentNameChange}
         />
-        <button type="submit" onClick={addStudent}>
-          Submit
-        </button>
+        <button type="submit">Add</button>
       </form>
     </>
   );
