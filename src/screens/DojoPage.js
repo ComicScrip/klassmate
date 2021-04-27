@@ -33,6 +33,7 @@ export default function DojoPage() {
   };
 
   const handleTeamRotation = () => {
+    // setTeam(([first, ...others]) => [...others, first]);
     setTeam(([first, ...others]) => [...others, first]);
   };
 
@@ -42,12 +43,17 @@ export default function DojoPage() {
 
   useEffect(() => {
     let timerId = null;
+
     if (chronoStarted) {
       timerId = setInterval(() => {
         setSecondsLeft((left) => left - 1);
       }, 1000);
     }
+
+    console.log('in useEffect, timer id :', timerId);
+
     return () => {
+      console.log('cleaning timer id : ', timerId);
       if (timerId) clearInterval(timerId);
     };
   }, [chronoStarted]);

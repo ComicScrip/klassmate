@@ -12,7 +12,9 @@ export default function Main() {
         <Route exact path="/" component={LoginPage} />
         <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/createGroups" component={CreateGroupsPages} />
-        <Route exact path="/dojo" component={DojoPage} />
+        <Route exact path="/dojo">
+          <DojoPage />
+        </Route>
         <Route path="/activity" component={ActivityPage} />
       </Switch>
     </main>
