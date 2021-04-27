@@ -53,7 +53,7 @@ function Header({ auth = true }) {
         openStates={multiDrawerOpenStates}
         setOpenStates={setMultiDrawerOpenStates}
       />
-      <Toolbar>
+      <Toolbar className="pt-1">
         <IconButton
           edge="start"
           className={classes.menuButton}

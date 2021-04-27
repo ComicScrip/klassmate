@@ -1,11 +1,12 @@
 import { Route, Switch } from 'react-router';
 import ActivityPage from '../screens/ActivityPage';
 import CreateGroupsPages from '../screens/CreateGroupsPage';
-import CreateNotePage from '../screens/CreateNotePage';
 import DojoPage from '../screens/DojoPage';
+import EditNotePage from '../screens/EditNotePage';
+import ListNotesPage from '../screens/ListNotesPage';
 import LoginPage from '../screens/LoginPage';
-import NotesPage from '../screens/NotesPage';
 import ProfilePage from '../screens/ProfilePage';
+import ShowNotePage from '../screens/ShowNotePage';
 
 export default function Main() {
   return (
@@ -16,8 +17,9 @@ export default function Main() {
         <Route exact path="/createGroups" component={CreateGroupsPages} />
         <Route exact path="/dojo" component={DojoPage} />
         <Route path="/activity" component={ActivityPage} />
-        <Route exact path="/notes" component={NotesPage} />
-        <Route exact path="/notes/new" component={CreateNotePage} />
+        <Route exact path="/notes" component={ListNotesPage} />
+        <Route exact path="/notes/edit/:id" component={EditNotePage} />
+        <Route exact path="/notes/:id" component={ShowNotePage} />
       </Switch>
     </main>
   );
