@@ -99,6 +99,7 @@ export default function ListNotesPage() {
         </div>
       ) : (
         <List>
+          {!loadingNotes && notes.length === 0 && <div>No note to show</div>}
           {notes.map(({ id, title }) => {
             return (
               <ListItem
