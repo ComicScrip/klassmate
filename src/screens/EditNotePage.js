@@ -45,7 +45,13 @@ export default function EditNotePage() {
           if (!axios.isCancel(err)) setError('Cannot get this note');
         })
         .finally(() => {
-          setLoadingExisting(false);
+          if (
+            !(
+              source.token.reason &&
+              source.token.reason.message === 'request cancelled'
+            )
+          )
+            setLoadingExisting(false);
         });
     }
 
@@ -60,7 +66,7 @@ export default function EditNotePage() {
   const onSubmit = (data) => {
     setError('');
     setSubmitting(true);
-    const setSmittingFalse = () => setSubmitting(false);
+    const setSubmittingFalse = () => setSubmitting(false);
 
     if (isUpdate) {
       API.patch(`/notes/${id}`, data)
@@ -71,7 +77,7 @@ export default function EditNotePage() {
         .catch(() => {
           setError('Cannot update this note.');
         })
-        .finally(setSmittingFalse);
+        .finally(setSubmittingFalse);
     } else {
       API.post('/notes', data)
         .then((res) => {
@@ -81,7 +87,7 @@ export default function EditNotePage() {
         .catch(() => {
           setError('Cannot create this note.');
         })
-        .finally(setSmittingFalse);
+        .finally(setSubmittingFalse);
     }
   };
 
