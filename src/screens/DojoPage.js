@@ -20,11 +20,17 @@ const initialTeam = [
 ];
 
 export default function DojoPage() {
-  const initialTimerValue = 3;
+  const initialTimerValue = 15;
   const [team, setTeam] = useState(initialTeam);
   const [pilot, copilot, ...otherMembers] = team;
   const [secondsLeft, setSecondsLeft] = useState(initialTimerValue);
   const [chronoStarted, setChronoStarted] = useState(false);
+
+  const [newStudentName, setNewStudentName] = useState('');
+
+  const handleNewStudentNameChange = (e) => {
+    setNewStudentName(e.target.value);
+  };
 
   const handleTeamRotation = () => {
     setTeam(([first, ...others]) => [...others, first]);
@@ -53,6 +59,12 @@ export default function DojoPage() {
     }
   }, [secondsLeft]);
 
+  const handleNewStudentAddition = (e) => {
+    e.preventDefault();
+    setTeam([...team, { firstName: newStudentName }]);
+    setNewStudentName('');
+  };
+
   return (
     <>
       <button type="button" onClick={handleChronoToggle}>
@@ -71,6 +83,15 @@ export default function DojoPage() {
           {member.firstName}
         </div>
       ))}
+      <form onSubmit={handleNewStudentAddition}>
+        <input
+          type="text"
+          placeholder="Add new student"
+          value={newStudentName}
+          onChange={handleNewStudentNameChange}
+        />
+        <button type="submit">Add</button>
+      </form>
     </>
   );
 }

@@ -8,6 +8,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Groups from '@material-ui/icons/Group';
+import NoteIcon from '@material-ui/icons/Note';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SportsKabaddi from '@material-ui/icons/SportsKabaddi';
 import clsx from 'clsx';
@@ -46,6 +47,14 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        <Link to="/notes" onClick={closeAllDrawers}>
+          <ListItem button>
+            <ListItemIcon>
+              <NoteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Notes" />
+          </ListItem>
+        </Link>
         <Link to="/dojo" onClick={closeAllDrawers}>
           <ListItem button>
             <ListItemIcon>
