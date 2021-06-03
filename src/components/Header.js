@@ -8,7 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import API from '../APIClient';
 import MultiDrawer from './MultiDrawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header({ auth = true }) {
+  const history = useHistory();
   const classes = useStyles();
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const open = !!userMenuAnchor;
@@ -45,6 +47,12 @@ function Header({ auth = true }) {
 
   const handleMainMenuButtonClick = () => {
     setMultiDrawerOpenStates((prev) => ({ ...prev, top: true }));
+  };
+
+  const logout = () => {
+    API.get('auth/logout').then(() => {
+      history.push('/');
+    });
   };
 
   return (
@@ -95,9 +103,14 @@ function Header({ auth = true }) {
               <Link to="/profile">
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
               </Link>
-              <Link to="/">
-                <MenuItem onClick={handleClose}>Log out</MenuItem>
-              </Link>
+              <MenuItem
+                onClick={() => {
+                  logout();
+                  handleClose();
+                }}
+              >
+                Log out
+              </MenuItem>
             </Menu>
           </>
         )}

@@ -1,9 +1,21 @@
-import { Button, TextField } from '@material-ui/core';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import qs from 'query-string';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
+import { useToasts } from 'react-toast-notifications';
+import API from '../APIClient';
 
 export default function LoginForm() {
+  const { addToast } = useToasts();
+
+  const history = useHistory();
   const [loginError, setLoginError] = useState(null);
   const {
     control,
@@ -16,9 +28,19 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = ({ email, password }) => {
-    window.console.log({ email, password });
+  const onSubmit = ({ email, password, stayConnected }) => {
     setLoginError(null);
+    API.post('/auth/login', { email, password, stayConnected })
+      .then(() => {
+        const { redirectUrl } = qs.parse(window.location.search);
+        if (redirectUrl) history.push(redirectUrl);
+        addToast('Logged in successfully', { appearance: 'success' });
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          addToast('Wrong email or password', { appearance: 'error' });
+        } else window.console.error(err);
+      });
   };
 
   return (
@@ -69,8 +91,19 @@ export default function LoginForm() {
           />
         )}
       />
-      <br />
-      <br />
+      <div className="flex justify-end mt-5 mb-5">
+        <Controller
+          name="stayConnected"
+          control={control}
+          render={({ field }) => (
+            <FormControlLabel
+              control={<Checkbox {...field} name="checkedB" color="primary" />}
+              label="Stay connected"
+            />
+          )}
+        />
+      </div>
+
       <Button fullWidth variant="contained" color="primary" type="submit">
         Log In
       </Button>
