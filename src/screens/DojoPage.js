@@ -50,10 +50,10 @@ export default function DojoPage() {
       }, 1000);
     }
 
-    console.log('in useEffect, timer id :', timerId);
+    window.console.log('in useEffect, timer id :', timerId);
 
     return () => {
-      console.log('cleaning timer id : ', timerId);
+      window.console.log('cleaning timer id : ', timerId);
       if (timerId) clearInterval(timerId);
     };
   }, [chronoStarted]);

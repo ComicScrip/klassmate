@@ -13,7 +13,8 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SportsKabaddi from '@material-ui/icons/SportsKabaddi';
 import clsx from 'clsx';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import API from '../APIClient';
 
 const useStyles = makeStyles({
   list: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
 
 export default function MultiDrawer({ openStates, setOpenStates }) {
   const classes = useStyles();
+  const history = useHistory();
 
   const toggleDrawer = (anchor, open) => () => {
     setOpenStates({ ...openStates, [anchor]: !open });
@@ -35,6 +37,12 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
     setTimeout(() => {
       setOpenStates({ top: false, bottom: false, right: false, left: false });
     }, 50);
+  };
+
+  const logout = () => {
+    API.get('auth/logout').then(() => {
+      history.push('/');
+    });
   };
 
   const list = (anchor) => (
@@ -90,7 +98,13 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
             <ListItemText primary="Profile" />
           </ListItem>
         </Link>
-        <Link to="/" onClick={closeAllDrawers}>
+        <Link
+          to="/"
+          onClick={() => {
+            logout();
+            closeAllDrawers();
+          }}
+        >
           <ListItem button>
             <ListItemIcon>
               <ExitToAppIcon />
