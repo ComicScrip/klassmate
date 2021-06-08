@@ -13,7 +13,8 @@ API.interceptors.response.use(
   (err) => {
     if (
       err.response &&
-      (err.response.status === 401 || err.response.status === 403)
+      (err.response.status === 401 || err.response.status === 403) &&
+      window.location.pathname !== '/'
     ) {
       browserHistory.push(`/?redirectUrl=${window.location.pathname}`);
     }

@@ -7,9 +7,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import API from '../APIClient';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CurrentUserContext } from '../contexts/currentUser';
+import Avatar from './Avatar';
 import MultiDrawer from './MultiDrawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,8 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ auth = true }) {
-  const history = useHistory();
+function Header() {
+  const {
+    profile: currentUserProfile = {},
+    isLoggedIn = true,
+    logout,
+  } = useContext(CurrentUserContext);
   const classes = useStyles();
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const open = !!userMenuAnchor;
@@ -49,32 +54,32 @@ function Header({ auth = true }) {
     setMultiDrawerOpenStates((prev) => ({ ...prev, top: true }));
   };
 
-  const logout = () => {
-    API.get('auth/logout').then(() => {
-      history.push('/');
-    });
-  };
-
   return (
     <AppBar position="static" className="h-16">
-      <MultiDrawer
-        openStates={multiDrawerOpenStates}
-        setOpenStates={setMultiDrawerOpenStates}
-      />
+      {isLoggedIn && (
+        <MultiDrawer
+          openStates={multiDrawerOpenStates}
+          setOpenStates={setMultiDrawerOpenStates}
+        />
+      )}
+
       <Toolbar className="pt-1">
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-          onClick={handleMainMenuButtonClick}
-        >
-          <MenuIcon />
-        </IconButton>
+        {isLoggedIn && (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={handleMainMenuButtonClick}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+
         <Typography variant="h6" className={classes.title}>
           Klassmate
         </Typography>
-        {auth && (
+        {isLoggedIn && (
           <>
             <IconButton
               aria-label="account of current user"
@@ -83,7 +88,11 @@ function Header({ auth = true }) {
               onClick={handleUserMenuClick}
               color="inherit"
             >
-              <AccountCircle />
+              {currentUserProfile.avatarUrl ? (
+                <Avatar size={30} avatarUrl={currentUserProfile.avatarUrl} />
+              ) : (
+                <AccountCircle />
+              )}
             </IconButton>
             <Menu
               id="menu-appbar"
