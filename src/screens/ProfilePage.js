@@ -75,6 +75,7 @@ export default function ProfilePage() {
       <input
         type="file"
         id="avatar"
+        accept="image/png, image/jpeg, image/gif"
         ref={avatarUploadRef}
         onChange={handleAvatarFileInputChange}
         style={{ display: 'none' }}
