@@ -136,7 +136,7 @@ export default function ProfilePage() {
               pattern: {
                 value: urlRegex,
                 message:
-                  'Does not look like a proper url (ex : https://reactjs.org)',
+                  'Does not look like a proper url (ex : https://blog.octo.com/wp-content/uploads/2015/12/react-logo-1000-transparent.png)',
               },
             }}
             control={control}
