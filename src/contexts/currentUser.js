@@ -27,19 +27,18 @@ export default function CurrentUserContextProvider({ children }) {
     return data;
   }, []);
 
-  const login = useCallback(({ email, password, stayConnected }) => {
-    API.post('/auth/login', { email, password, stayConnected })
-      .then(() => {
-        const { redirectUrl } = qs.parse(window.location.search);
-        if (redirectUrl) history.push(redirectUrl);
-        addToast('Logged in successfully', { appearance: 'success' });
-        getProfile();
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 401) {
-          addToast('Wrong email or password', { appearance: 'error' });
-        } else window.console.error(err);
-      });
+  const login = useCallback(async ({ email, password, stayConnected }) => {
+    try {
+      await API.post('/auth/login', { email, password, stayConnected });
+      const { redirectUrl } = qs.parse(window.location.search);
+      if (redirectUrl) history.push(redirectUrl);
+      addToast('Logged in successfully', { appearance: 'success' });
+      getProfile();
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        addToast('Wrong email or password', { appearance: 'error' });
+      } else window.console.error(err);
+    }
   });
 
   const updateProfile = useCallback(
@@ -72,11 +71,15 @@ export default function CurrentUserContextProvider({ children }) {
     [profile]
   );
 
-  const logout = useCallback(() => {
-    API.get('auth/logout').then(() => {
-      history.push('/');
+  const logout = useCallback(async () => {
+    try {
+      await API.get('auth/logout');
+      addToast('Logged out successfully', { appearance: 'success' });
       setProfile(undefined);
-    });
+      history.push('/');
+    } catch (err) {
+      addToast('Could not logout', { appearance: 'error' });
+    }
   }, []);
 
   return (
