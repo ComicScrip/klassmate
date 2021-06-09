@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import ActivityPage from '../screens/ActivityPage';
 import CreateGroupsPages from '../screens/CreateGroupsPage';
 import DojoPage from '../screens/DojoPage';
