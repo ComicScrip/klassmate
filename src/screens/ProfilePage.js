@@ -6,17 +6,14 @@ import { useContext, useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Avatar from '../components/Avatar';
 import { CurrentUserContext } from '../contexts/currentUser';
-
-const urlRegex = /https?:\/\/|blob:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+// eslint-disable-next-line
+const urlRegex =
+  /https?:\/\/|blob:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 
 export default function ProfilePage() {
-  const {
-    profile,
-    getProfile,
-    updateProfile,
-    loadingProfile,
-    savingProfile,
-  } = useContext(CurrentUserContext);
+  // eslint-disable-next-line
+  const { profile, getProfile, updateProfile, loadingProfile, savingProfile } =
+    useContext(CurrentUserContext);
 
   const {
     control,

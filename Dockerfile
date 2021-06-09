@@ -1,6 +1,6 @@
 # build environment
-FROM node:12.18 as builder
-RUN mkdir /usr/src/app
+FROM node:lts-alpine as builder
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 ARG REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
