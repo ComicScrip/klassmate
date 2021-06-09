@@ -1,8 +1,11 @@
 import qs from 'query-string';
 import { createContext, useCallback, useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
+import createPersistedState from 'use-persisted-state';
 import API from '../APIClient';
 import history from '../history';
+
+const useLoggedState = createPersistedState('logged');
 
 export const CurrentUserContext = createContext();
 
@@ -11,7 +14,11 @@ export default function CurrentUserContextProvider({ children }) {
   const [profile, setProfile] = useState();
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
-  const isLoggedIn = !!profile;
+  const [isLoggedIn, setIsLoggedIn] = useLoggedState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  const handleUnexpectedError = () =>
+    addToast('An unexpected error occured', { appearance: 'error' });
 
   const getProfile = useCallback(async () => {
     setLoadingProfile(true);
@@ -19,8 +26,10 @@ export default function CurrentUserContextProvider({ children }) {
     try {
       data = await API.get('/currentUser').then((res) => res.data);
       setProfile(data);
+      setIsLoggedIn(true);
     } catch (err) {
       window.console.error(err);
+      setIsLoggedIn(false);
     } finally {
       setLoadingProfile(false);
     }
@@ -28,16 +37,19 @@ export default function CurrentUserContextProvider({ children }) {
   }, []);
 
   const login = useCallback(async ({ email, password, stayConnected }) => {
+    setIsAuthenticating(true);
     try {
       await API.post('/auth/login', { email, password, stayConnected });
       const { redirectUrl } = qs.parse(window.location.search);
       if (redirectUrl) history.push(redirectUrl);
       addToast('Logged in successfully', { appearance: 'success' });
-      getProfile();
+      await getProfile();
     } catch (err) {
       if (err.response && err.response.status === 401) {
         addToast('Wrong email or password', { appearance: 'error' });
-      } else window.console.error(err);
+      } else handleUnexpectedError();
+    } finally {
+      setIsAuthenticating(false);
     }
   });
 
@@ -64,6 +76,7 @@ export default function CurrentUserContextProvider({ children }) {
         });
       } catch (err) {
         window.console.error(err);
+        handleUnexpectedError();
       } finally {
         setSavingProfile(false);
       }
@@ -73,6 +86,7 @@ export default function CurrentUserContextProvider({ children }) {
 
   const logout = useCallback(async () => {
     try {
+      setIsLoggedIn(false);
       await API.get('auth/logout');
       addToast('Logged out successfully', { appearance: 'success' });
       setProfile(undefined);
@@ -93,6 +107,7 @@ export default function CurrentUserContextProvider({ children }) {
         isLoggedIn,
         logout,
         login,
+        isAuthenticating,
       }}
     >
       {children}

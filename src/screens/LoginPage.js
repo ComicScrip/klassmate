@@ -9,7 +9,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { CurrentUserContext } from '../contexts/currentUser';
 
 export default function LoginPage() {
-  const { login, isLoggedIn, profile, logout } = useContext(CurrentUserContext);
+  const { login, isLoggedIn, profile, logout, isAuthenticating } =
+    useContext(CurrentUserContext);
 
   const {
     control,
@@ -43,7 +44,11 @@ export default function LoginPage() {
     );
 
   return (
-    <form onSubmit={handleSubmit(login)}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        if (!isAuthenticating) login(data);
+      })}
+    >
       <h2 className="text-3xl text-center mb-5">Login</h2>{' '}
       <Controller
         name="email"
@@ -98,8 +103,14 @@ export default function LoginPage() {
           )}
         />
       </div>
-      <Button fullWidth variant="contained" color="primary" type="submit">
-        Log In
+      <Button
+        disabled={isAuthenticating}
+        fullWidth
+        variant="contained"
+        color="primary"
+        type="submit"
+      >
+        {isAuthenticating ? 'Logging in...' : 'Log in'}
       </Button>
     </form>
   );

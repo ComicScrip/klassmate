@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const {
     profile: currentUserProfile = {},
-    isLoggedIn = true,
+    isLoggedIn,
     logout,
   } = useContext(CurrentUserContext);
   const classes = useStyles();

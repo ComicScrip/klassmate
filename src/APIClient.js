@@ -17,6 +17,7 @@ API.interceptors.response.use(
       window.location.pathname !== '/'
     ) {
       browserHistory.push(`/?redirectUrl=${window.location.pathname}`);
+      window.localStorage.setItem('logged', false);
     }
     return Promise.reject(err);
   }
