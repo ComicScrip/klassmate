@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import API from '../APIClient';
 
 export default function ShowNotePage() {
