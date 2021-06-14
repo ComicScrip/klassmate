@@ -93,7 +93,7 @@ export default function LoginPage() {
         )}
       />
       <div className="flex justify-start mt-5 mb-5">
-        <Link to="/get-password-reset-mail">Reset passowrd</Link>
+        <Link to="/password-reset-instructions">Forgot your password ?</Link>
       </div>
       <div className="flex justify-end mt-5 mb-5">
         <Controller

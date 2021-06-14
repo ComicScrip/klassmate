@@ -26,7 +26,7 @@ export default function Main() {
         <Route exact path="/notes/:id" component={ShowNotePage} />
         <Route
           exact
-          path="/get-password-reset-mail"
+          path="/password-reset-instructions"
           component={GetResetPasswordMailPage}
         />
         <Route exact path="/reset-password" component={ResetPasswordPage} />

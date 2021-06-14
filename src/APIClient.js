@@ -15,7 +15,7 @@ API.interceptors.response.use(
       err.response &&
       (err.response.status === 401 || err.response.status === 403) &&
       window.location.pathname !== '/' &&
-      window.location.pathname !== '/get-password-reset-mail' &&
+      window.location.pathname !== '/password-reset-instructions' &&
       window.location.pathname !== '/reset-password'
     ) {
       browserHistory.push(`/?redirectUrl=${window.location.pathname}`);
