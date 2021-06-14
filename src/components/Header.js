@@ -75,10 +75,12 @@ function Header() {
             <MenuIcon />
           </IconButton>
         )}
+        <Link to="/">
+          <Typography variant="h6" className={classes.title}>
+            Klassmate
+          </Typography>
+        </Link>
 
-        <Typography variant="h6" className={classes.title}>
-          Klassmate
-        </Typography>
         {isLoggedIn && (
           <>
             <IconButton

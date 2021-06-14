@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/currentUser';
 
 export default function LoginPage() {
@@ -91,6 +92,9 @@ export default function LoginPage() {
           />
         )}
       />
+      <div className="flex justify-start mt-5 mb-5">
+        <Link to="/password-reset-instructions">Forgot your password ?</Link>
+      </div>
       <div className="flex justify-end mt-5 mb-5">
         <Controller
           name="stayConnected"
