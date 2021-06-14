@@ -14,7 +14,9 @@ API.interceptors.response.use(
     if (
       err.response &&
       (err.response.status === 401 || err.response.status === 403) &&
-      window.location.pathname !== '/'
+      window.location.pathname !== '/' &&
+      window.location.pathname !== '/get-password-reset-mail' &&
+      window.location.pathname !== '/reset-password'
     ) {
       browserHistory.push(`/?redirectUrl=${window.location.pathname}`);
       window.localStorage.setItem('logged', false);
