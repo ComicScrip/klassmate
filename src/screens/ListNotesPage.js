@@ -90,15 +90,13 @@ export default function ListNotesPage() {
   const currentPage = offset / limit + 1;
   const totalPages = Math.ceil(numberOfSearchResults / limit);
 
-  const updateSearchUrl = (params) => {
-    const clientQueryParams = queryString.stringify(params);
-    history.push(`/notes?${clientQueryParams}`);
-  };
-  const setCurrentPage = (pageNum) => {
-    updateSearchUrl({
+  const updateSearchUrl = (newParams) => {
+    const clientQueryParams = queryString.stringify({
       ...searchParams,
-      offset: parseInt(limit, 10) * (pageNum - 1),
+      offset: 0, // reset page number to 1 everytime we change a search param
+      ...newParams,
     });
+    history.push(`/notes?${clientQueryParams}`);
   };
 
   const handleNoteClick = (id) => {
@@ -186,11 +184,7 @@ export default function ListNotesPage() {
           </div>
           <InputBase
             onChange={(e) =>
-              updateSearchUrl({
-                ...searchParams,
-                titleOrContentContains: e.target.value,
-                offset: 0,
-              })
+              updateSearchUrl({ titleOrContentContains: e.target.value })
             }
             value={titleOrContentContains}
             placeholder="Search…"
@@ -204,13 +198,7 @@ export default function ListNotesPage() {
 
         <Select
           value={authorId}
-          onChange={(e) =>
-            updateSearchUrl({
-              ...searchParams,
-              authorId: e.target.value,
-              offset: 0,
-            })
-          }
+          onChange={(e) => updateSearchUrl({ authorId: e.target.value })}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
         >
@@ -246,7 +234,9 @@ export default function ListNotesPage() {
               <Pagination
                 count={totalPages}
                 page={currentPage}
-                onChange={(e, value) => setCurrentPage(value)}
+                onChange={(e, value) =>
+                  updateSearchUrl({ offset: parseInt(limit, 10) * (value - 1) })
+                }
               />
             </div>
           )}
@@ -290,13 +280,7 @@ export default function ListNotesPage() {
               Display
               <Select
                 value={limit}
-                onChange={(e) =>
-                  updateSearchUrl({
-                    ...searchParams,
-                    limit: e.target.value,
-                    offset: 0,
-                  })
-                }
+                onChange={(e) => updateSearchUrl({ limit: e.target.value })}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Per page' }}
               >
