@@ -1,5 +1,4 @@
 import { Route, Switch } from 'react-router-dom';
-import ShowActivityPage from '../screens/Activity';
 import ActivityPage from '../screens/ActivityPage';
 import CreateGroupsPages from '../screens/CreateGroupsPage';
 import DojoPage from '../screens/DojoPage';
@@ -24,10 +23,9 @@ export default function Main() {
         </Route>
         <Route exact path="/notes" component={ListNotesPage} />
         <Route exact path="/notes/edit/:id" component={EditNotePage} />
-        <Route exact path="/activities/:id" component={ShowActivityPage} />
+        <Route exact path="/activities/:id" component={ActivityPage} />
         <Route exact path="/activities" component={ListActivitiesPage} />
         <Route exact path="/activities/edit/:id" component={EditActivityPage} />
-        <Route exact path="/activities/:id" component={ActivityPage} />
         <Route
           exact
           path="/password-reset-instructions"
