@@ -1,14 +1,16 @@
 import { Route, Switch } from 'react-router-dom';
+import ShowActivityPage from '../screens/Activity';
 import ActivityPage from '../screens/ActivityPage';
 import CreateGroupsPages from '../screens/CreateGroupsPage';
 import DojoPage from '../screens/DojoPage';
+import EditActivityPage from '../screens/EditActivityPage';
 import EditNotePage from '../screens/EditNotePage';
 import GetResetPasswordMailPage from '../screens/GetResetPasswordMailPage';
+import ListActivitiesPage from '../screens/ListActivitiesPage';
 import ListNotesPage from '../screens/ListNotesPage';
 import LoginPage from '../screens/LoginPage';
 import ProfilePage from '../screens/ProfilePage';
 import ResetPasswordPage from '../screens/ResetPasswordPage';
-import ShowNotePage from '../screens/ShowNotePage';
 
 export default function Main() {
   return (
@@ -20,10 +22,12 @@ export default function Main() {
         <Route exact path="/dojo">
           <DojoPage />
         </Route>
-        <Route path="/activity" component={ActivityPage} />
         <Route exact path="/notes" component={ListNotesPage} />
         <Route exact path="/notes/edit/:id" component={EditNotePage} />
-        <Route exact path="/notes/:id" component={ShowNotePage} />
+        <Route exact path="/activities/:id" component={ShowActivityPage} />
+        <Route exact path="/activities" component={ListActivitiesPage} />
+        <Route exact path="/activities/edit/:id" component={EditActivityPage} />
+        <Route exact path="/activities/:id" component={ActivityPage} />
         <Route
           exact
           path="/password-reset-instructions"

@@ -74,12 +74,12 @@ export default function MultiDrawer({ openStates, setOpenStates }) {
             <ListItemText primary="Create groups" />
           </ListItem>
         </Link>
-        <Link to="/activity" onClick={closeAllDrawers}>
+        <Link to="/activities" onClick={closeAllDrawers}>
           <ListItem button>
             <ListItemIcon>
               <PlayArrowIcon />
             </ListItemIcon>
-            <ListItemText primary="Activity" />
+            <ListItemText primary="Activities" />
           </ListItem>
         </Link>
       </List>
