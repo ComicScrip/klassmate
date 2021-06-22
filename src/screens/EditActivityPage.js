@@ -6,6 +6,7 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
@@ -74,7 +75,13 @@ export default function EditActivityPage() {
     const setSubmittingFalse = () => setSubmitting(false);
 
     if (isUpdate) {
-      API.patch(`/activities/${id}`, data)
+      const time = dayjs(data.nextGroupMeetingTime);
+      const nextGroupMeetingTime = dayjs()
+        .set('hours', time.hour())
+        .set('minutes', time.hour())
+        .format();
+      const toSend = { ...data, nextGroupMeetingTime };
+      API.patch(`/activities/${id}`, toSend)
         .then((res) => {
           addToast('Successfully updated', { appearance: 'success' });
           history.push(`/activities/${res.data.id}`);
