@@ -13,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Avatar from '../components/Avatar';
 import API from '../APIClient';
-import useDoubleClick from '../hooks/useDoubleClick';
 import NumberInput from '../components/NumberInput';
 
 dayjs.extend(duration);
@@ -26,10 +25,6 @@ const useStyles = makeStyles({
 
 export default function DojoPage() {
   const [editingChrono, setEditingChrono] = useState(false);
-  const onEditChrono = () => {
-    setEditingChrono(true);
-  };
-  const [chronoIsInEditionMode] = useDoubleClick(onEditChrono);
   const [studentsLoading, setStudentsLoading] = useState(false);
   const [students, setStudents] = useState([]);
   const [team, setTeam] = useState([]);
@@ -144,7 +139,7 @@ export default function DojoPage() {
           Rotate Team
         </Button>
       </div>
-      <div className="text-3xl m-5 text-center " ref={chronoIsInEditionMode}>
+      <div className="text-3xl m-5 text-center ">
         {editingChrono ? (
           <div className="flex flex-col">
             <NumberInput
@@ -246,7 +241,7 @@ export default function DojoPage() {
       <form
         autoComplete="off"
         onSubmit={handleNewStudentAddition}
-        className="mt-10 flex justify-between h-13"
+        className="mt-5 flex justify-between h-13"
       >
         <Autocomplete
           value={usersToAddToTeam}
