@@ -45,6 +45,7 @@ function AppContents() {
           <CircularProgress />
         </div>
       )}
+      <footer className="h-20" />
     </>
   );
 }
