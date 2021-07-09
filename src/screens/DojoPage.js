@@ -13,6 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Avatar from '../components/Avatar';
 import API from '../APIClient';
+import useDoubleClick from '../hooks/useDoubleClick';
+import NumberInput from '../components/NumberInput';
 
 dayjs.extend(duration);
 
@@ -23,11 +25,19 @@ const useStyles = makeStyles({
 });
 
 export default function DojoPage() {
-  const initialTimerValue = 15;
+  const [editingChrono, setEditingChrono] = useState(false);
+  const onEditChrono = () => {
+    setEditingChrono(true);
+  };
+  const [chronoIsInEditionMode] = useDoubleClick(onEditChrono);
   const [studentsLoading, setStudentsLoading] = useState(false);
   const [students, setStudents] = useState([]);
   const [team, setTeam] = useState([]);
-  const [secondsLeft, setSecondsLeft] = useState(initialTimerValue);
+  const [chronoInitialSeconds, setChronoInitialSeconds] = useState(0);
+  const [chronoInitialMinutes, setChronoInitialMinutes] = useState(5);
+  const [secondsLeft, setSecondsLeft] = useState(
+    chronoInitialSeconds + 60 * chronoInitialMinutes
+  );
   const [chronoStarted, setChronoStarted] = useState(false);
   const [usersToAddToTeam, setUsersToAddToTeam] = useState([]);
   const [autocompleteInputText, setAutocompleteInputText] = useState('');
@@ -37,8 +47,7 @@ export default function DojoPage() {
     setTeam((currentTeam) => currentTeam.filter((member) => member.id !== id));
 
   const handleTeamRotation = () => {
-    // setTeam(([first, ...others]) => [...others, first]);
-    setTeam(([first, ...others]) => [...others, first]);
+    if (team.length) setTeam(([first, ...others]) => [...others, first]);
   };
 
   const handleChronoToggle = () => {
@@ -73,7 +82,7 @@ export default function DojoPage() {
 
   useEffect(() => {
     if (secondsLeft === 0) {
-      setSecondsLeft(initialTimerValue);
+      setSecondsLeft(chronoInitialMinutes * 60 + chronoInitialSeconds);
       handleTeamRotation();
     }
   }, [secondsLeft]);
@@ -135,8 +144,60 @@ export default function DojoPage() {
           Rotate Team
         </Button>
       </div>
-      <div className="text-3xl m-5 text-center">
-        {dayjs.duration(secondsLeft, 'seconds').format('mm:ss')}
+      <div className="text-3xl m-5 text-center " ref={chronoIsInEditionMode}>
+        {editingChrono ? (
+          <div className="flex flex-col">
+            <NumberInput
+              min={0}
+              label="minutes"
+              value={chronoInitialMinutes}
+              onChange={(val) => setChronoInitialMinutes(val)}
+            />
+
+            <NumberInput
+              label="seconds"
+              step={10}
+              min={0}
+              max={60}
+              value={chronoInitialSeconds}
+              onChange={(val) => setChronoInitialSeconds(val)}
+            />
+            <div className="mt-5">
+              <Button
+                onClick={() => {
+                  let sec = chronoInitialSeconds + chronoInitialMinutes * 60;
+                  if (sec < 5) sec = 5;
+                  setSecondsLeft(sec);
+                  setEditingChrono(false);
+                  setChronoStarted(true);
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Restart with that
+              </Button>
+            </div>
+
+            <div className="mt-2">
+              <Button
+                onClick={() => {
+                  setEditingChrono(false);
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div
+            onClick={() => setEditingChrono(true)}
+            className="cursor-pointer"
+          >
+            {dayjs.duration(secondsLeft, 'seconds').format('mm:ss')}
+          </div>
+        )}
       </div>
 
       <div
@@ -189,6 +250,7 @@ export default function DojoPage() {
       >
         <Autocomplete
           value={usersToAddToTeam}
+          disabled={chronoStarted}
           id="user-select"
           fullWidth
           options={studentsLoading ? [] : selectableNewMembers}
