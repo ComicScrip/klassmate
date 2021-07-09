@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import useSound from 'use-sound';
 import { Button, TextField, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -14,6 +15,20 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Avatar from '../components/Avatar';
 import API from '../APIClient';
 import NumberInput from '../components/NumberInput';
+import ticksNDong from '../sounds/ticksndong.mp3';
+
+const synth = window.speechSynthesis;
+
+function speak(text) {
+  if (!synth || synth.speaking) {
+    return;
+  }
+  if (text !== '') {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.voice = synth.getVoices().find((v) => v.lang === 'en-GB');
+    synth.speak(utterance);
+  }
+}
 
 dayjs.extend(duration);
 
@@ -24,6 +39,13 @@ const useStyles = makeStyles({
 });
 
 export default function DojoPage() {
+  const [
+    playTicksAndDong,
+    { stop: stopTicksAndDong, pause: pauseTicksAndDong },
+  ] = useSound(ticksNDong, {
+    volume: 0.2,
+    interrupt: false,
+  });
   const [editingChrono, setEditingChrono] = useState(false);
   const [studentsLoading, setStudentsLoading] = useState(false);
   const [students, setStudents] = useState([]);
@@ -46,6 +68,10 @@ export default function DojoPage() {
   };
 
   const handleChronoToggle = () => {
+    if (chronoStarted) {
+      pauseTicksAndDong();
+      if (synth.speaking) synth.cancel();
+    } else playTicksAndDong();
     setChronoStarted(!chronoStarted);
   };
 
@@ -80,7 +106,17 @@ export default function DojoPage() {
       setSecondsLeft(chronoInitialMinutes * 60 + chronoInitialSeconds);
       handleTeamRotation();
     }
+    if (secondsLeft === 4) {
+      playTicksAndDong();
+    }
   }, [secondsLeft]);
+
+  const [pilot, copilot] = team;
+
+  useEffect(() => {
+    if (team.length >= 2 && chronoStarted)
+      speak(`Pilot is ${pilot.firstName}. Copilot is ${copilot.firstName}`);
+  }, [pilot, copilot]);
 
   const handleNewStudentAddition = (e) => {
     e.preventDefault();
@@ -165,6 +201,7 @@ export default function DojoPage() {
                   setSecondsLeft(sec);
                   setEditingChrono(false);
                   setChronoStarted(true);
+                  stopTicksAndDong();
                 }}
                 variant="contained"
                 color="primary"
