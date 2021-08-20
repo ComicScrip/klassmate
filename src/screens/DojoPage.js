@@ -71,7 +71,7 @@ export default function DojoPage() {
     if (chronoStarted) {
       pauseTicksAndDong();
       if (synth.speaking) synth.cancel();
-    } else playTicksAndDong();
+    }
     setChronoStarted(!chronoStarted);
   };
 
@@ -115,7 +115,7 @@ export default function DojoPage() {
 
   useEffect(() => {
     if (team.length >= 2 && chronoStarted)
-      speak(`Pilot is ${pilot.firstName}. Copilot is ${copilot.firstName}`);
+      speak(`${pilot.firstName} pilot. ${copilot.firstName} co-pilot.`);
   }, [pilot, copilot]);
 
   const handleNewStudentAddition = (e) => {
@@ -248,7 +248,7 @@ export default function DojoPage() {
             <animated.div
               key={item.key}
               style={{
-                transform: y.interpolate((v) => `translate3d(0,${v}px,0)`),
+                transform: y.to((v) => `translate3d(0,${v}px,0)`),
                 height: rowHeight,
                 position: 'absolute',
                 willChange: 'transform, height, opacity, background-color',
