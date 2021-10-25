@@ -29,7 +29,7 @@ const { CancelToken } = axios;
 
 const useStyles = makeStyles((theme) => ({
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListNotesPage() {
-  const { profile } = useContext(CurrentUserContext);
+  const { profile, canEditNote } = useContext(CurrentUserContext);
   const [allUsers, setAllUsers] = useState([]);
   const [notes, setNotes] = useState([]);
   const [numberOfSearchResults, setNumberOfSearchResults] = useState(0);
@@ -243,8 +243,7 @@ export default function ListNotesPage() {
 
           <List>
             {notes.map(({ id, title, authorId: currentNoteAuthorId }) => {
-              const canEdit =
-                profile.role === 'admin' || profile.id === currentNoteAuthorId;
+              const canEdit = canEditNote(currentNoteAuthorId);
 
               return (
                 <ListItem
