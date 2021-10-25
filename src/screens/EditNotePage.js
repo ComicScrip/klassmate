@@ -137,7 +137,11 @@ export default function EditNotePage() {
                     borderColor: 'red',
                   }}
                 >
-                  <MDEditor value={field.value} onChange={field.onChange} />
+                  <MDEditor
+                    value={field.value}
+                    onChange={field.onChange}
+                    height={350}
+                  />
                   {errors.content && (
                     <p style={{ color: 'red' }}>
                       {errors.content ? errors.content.message : ''}

@@ -1,5 +1,5 @@
 import qs from 'query-string';
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import createPersistedState from 'use-persisted-state';
 import API from '../APIClient';
@@ -96,9 +96,20 @@ export default function CurrentUserContextProvider({ children }) {
     }
   }, []);
 
+  const isAdmin = useMemo(() => profile && profile.role === 'admin', [profile]);
+
+  const canEditNote = useCallback(
+    (authorId) => {
+      return isAdmin || (profile && profile.id === authorId);
+    },
+    [profile, isAdmin]
+  );
+
   return (
     <CurrentUserContext.Provider
       value={{
+        isAdmin,
+        canEditNote,
         profile,
         loadingProfile,
         savingProfile,
