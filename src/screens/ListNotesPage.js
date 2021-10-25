@@ -242,7 +242,10 @@ export default function ListNotesPage() {
           )}
 
           <List>
-            {notes.map(({ id, title }) => {
+            {notes.map(({ id, title, authorId: currentNoteAuthorId }) => {
+              const canEdit =
+                profile.role === 'admin' || profile.id === currentNoteAuthorId;
+
               return (
                 <ListItem
                   key={id}
@@ -251,26 +254,29 @@ export default function ListNotesPage() {
                   onClick={() => handleNoteClick(id)}
                 >
                   <ListItemText primary={title} />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      aria-label="edit"
-                      onClick={() => {
-                        handleNoteEdition(id);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => {
-                        handleNoteDeletion(id);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                  {canEdit && (
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="edit"
+                        onClick={() => {
+                          handleNoteEdition(id);
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => {
+                          handleNoteDeletion(id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  )}
                 </ListItem>
               );
             })}
