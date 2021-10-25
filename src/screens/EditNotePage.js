@@ -129,20 +129,6 @@ export default function EditNotePage() {
               required: { value: true, message: 'required' },
             }}
             render={({ field }) => {
-              // return (
-              //   <TextField
-              //     inputProps={field}
-              //     label="Content"
-              //     disabled={loadingExisting || submitting}
-              //     error={!!errors.content}
-              //     helperText={errors.content ? errors.content.message : ''}
-              //     multiline
-              //     rows={15}
-              //     variant="outlined"
-              //     className="w-full"
-              //   />
-              // );
-
               return (
                 <div
                   style={{
