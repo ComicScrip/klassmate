@@ -54,7 +54,7 @@ export default function ShowNotePage() {
         </div>
         <p className="text-sm">Last update : {dayjs().to(dayjs(updatedAt))}</p>
       </div>
-      <h1 className=" text-center text-6xl mb-7">{title}</h1>
+      <h1 className=" text-center text-6xl mb-9 mt-5">{title}</h1>
 
       <MDEditor.Markdown source={content} />
     </div>
