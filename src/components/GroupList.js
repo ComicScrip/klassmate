@@ -7,7 +7,7 @@ export default function GroupList({ groups }) {
             <h2 className="text-xl">{group.name}</h2>
             <ul>
               {group.members.map((member) => {
-                return <li key={member.firstName}>{member.firstName}</li>;
+                return <li key={member.id}>{member.firstName}</li>;
               })}
             </ul>
           </div>
