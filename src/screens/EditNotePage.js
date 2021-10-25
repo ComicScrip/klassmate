@@ -1,3 +1,4 @@
+import MDEditor from '@uiw/react-md-editor';
 import { Button, CircularProgress, TextField } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
@@ -128,18 +129,35 @@ export default function EditNotePage() {
               required: { value: true, message: 'required' },
             }}
             render={({ field }) => {
+              // return (
+              //   <TextField
+              //     inputProps={field}
+              //     label="Content"
+              //     disabled={loadingExisting || submitting}
+              //     error={!!errors.content}
+              //     helperText={errors.content ? errors.content.message : ''}
+              //     multiline
+              //     rows={15}
+              //     variant="outlined"
+              //     className="w-full"
+              //   />
+              // );
+
               return (
-                <TextField
-                  inputProps={field}
-                  label="Content"
-                  disabled={loadingExisting || submitting}
-                  error={!!errors.content}
-                  helperText={errors.content ? errors.content.message : ''}
-                  multiline
-                  rows={15}
-                  variant="outlined"
-                  className="w-full"
-                />
+                <div
+                  style={{
+                    padding: errors.content ? 3 : 0,
+                    borderWidth: errors.content ? 1 : 0,
+                    borderColor: 'red',
+                  }}
+                >
+                  <MDEditor value={field.value} onChange={field.onChange} />
+                  {errors.content && (
+                    <p style={{ color: 'red' }}>
+                      {errors.content ? errors.content.message : ''}
+                    </p>
+                  )}
+                </div>
               );
             }}
           />
